@@ -13,3 +13,17 @@
 </div>
 <hr>
 {% endblock %}
+
+{% block content %}
+
+<div class="login-form">
+    <form action="/login", method="POST">
+        <div class="form-fields">
+            <input type="text" placeholder="Enter your username"><br>
+            <input type="password" placeholder="Enter your password"><br>
+            <input type="submit" value="login">
+        </div>
+    </form>
+</div>
+
+{% endblock %}

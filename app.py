@@ -32,6 +32,13 @@ def index():
         return render_template("index.html")
 
 
+@app.route("/login", methods=['POST', 'GET'])
+def login():
+    if request.method == "POST":
+        return render_template("dashboard.html")
+    else:
+        return render_template("dashboard.html")
+
 # @app.route("/dashboard/<str:name>", methods=['POST', 'GET'])
 # def dashboard(name):
 #     if request.method == 'POST':
