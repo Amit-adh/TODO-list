@@ -27,15 +27,17 @@ with app.app_context():
 @app.route("/", methods=['POST', 'GET'])
 def index():
     if request.method == "POST":
-        pass
+        return render_template("login.html")
     else:
         return render_template("index.html")
 
 
-@app.route("/dashboard/<str:name>", methods=['POST', 'GET'])
-def dashboard(name):
-    if request.method == 'POST':
-        pass
+# @app.route("/dashboard/<str:name>", methods=['POST', 'GET'])
+# def dashboard(name):
+#     if request.method == 'POST':
+#         pass
+#     else:
+#         return name + "hello"
 
 
 
