@@ -17,7 +17,7 @@
 
 {% block content %}
 <div class="login-form">
-    <form action="/new_user", method="POST">
+    <form action="{{ url_for('new_user') }}", method="POST">
         <div class="form-fields">
             <input type="text" name='username' placeholder="Enter your username"><br>
             <input type="password" name="password" placeholder="Enter your password"><br>
@@ -25,5 +25,10 @@
             <input type="submit" name="submit" value="Register">
         </div>
     </form>
+    {% if err %}
+    <script>
+        alert("Username already exists");
+    </script>
+    {% endif %}
 </div>
 {% endblock %}

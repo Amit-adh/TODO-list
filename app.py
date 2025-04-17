@@ -32,23 +32,29 @@ def index():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        return redirect(url_for("login"))
+        return redirect(url_for("new_user"))
     else:
-        return render_template("register.html")
+        return render_template("register.html", err=False)
 
-@app.route("/new_user", methods=['POST'])
-def add_user():
-    username = request.form['username']
-    password = request.form['password']
-    re_pass = request.form['re-pass']
-    
-    if(password == re_pass):
-        user = User(username=username, password=password)
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for("login"))
-    else:
-        return "Both passwords must be the same"
+@app.route("/new_user", methods=['POST', 'GET'])
+def new_user():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        re_pass = request.form['re-pass']
+        
+        if User.query.filter_by(username=username).first():
+            return render_template("register.html", err=True)    
+        
+        if(password == re_pass):
+            user = User(username=username, password=password)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for("login"))
+        else:
+            return "Both passwords must be the same"
+        
+    return render_template("register.html", err=False)
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
