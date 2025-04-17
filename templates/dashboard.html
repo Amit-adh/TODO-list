@@ -37,7 +37,7 @@
     <ul id="important">
         {% for task in tasks %}
         <li>
-            {{task.content}}
+            <span class="task-content-span">{{task.content}}</span>
             <form action="{{ url_for('modify_task') }}" method="POST">
                 <button type="submit">Modify</button>
             </form>
