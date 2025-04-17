@@ -88,14 +88,17 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
-# @app.route("/add_task/<int:id>")
-# def add_task(id):
-#     user = User.query.get_or_404(id)
-#     content = request.form['task-text']
-#     task = Todo(content=content)
-#     db.session.add(task)
-#     db.session.commit()
-#     return redirect(url_for('dashboard', id=user.id))
+@app.route("/add_task", methods=['POST'])
+def add_task():
+    if 'user_id' not in session:
+        return redirect(url_for("login"))
+
+    # user = User.query.get_or_404(id)
+    # content = request.form['task-text']
+    # task = Todo(content=content)
+    # db.session.add(task)
+    # db.session.commit()
+    # return redirect(url_for('dashboard', id=user.id))
 
 if __name__ == "__main__":
     app.run(debug=True)

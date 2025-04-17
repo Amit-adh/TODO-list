@@ -21,7 +21,7 @@
 
 {% block content %}
 <div class="add-button">
-    <form action="{{ url_for('add_task') }}" >
+    <form action="{{ url_for('add_task') }}" method="POST">
         <input type="text" name="task-text" id="task-text" placeholder="Enter task">
         <select name="priority" id="priority">
             <option name="normal" value="normal">normal</option>
