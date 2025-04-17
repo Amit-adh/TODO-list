@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request # type: ignore
+from flask import Flask, render_template, url_for, request, redirect, session # type: ignore
 from flask_sqlalchemy import SQLAlchemy # type: ignore
 
 app = Flask(__name__)
@@ -24,27 +24,31 @@ with app.app_context():
 
 
 
-@app.route("/", methods=['POST', 'GET'])
+@app.route("/")
 def index():
-    if request.method == "POST":
-        return render_template("login.html")
-    else:
         return render_template("index.html")
 
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
     if request.method == "POST":
-        return render_template("dashboard.html")
+        return redirect(url_for('dashboard'))
+    else:
+        return render_template("login.html")
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        return redirect(url_for("login"))
+    else:
+        return render_template("register.html")
+    
+@app.route("/dashboard", methods=['GET', 'POST'])
+def dashboard():
+    if request.method == 'POST':
+        return "registered"
     else:
         return render_template("dashboard.html")
-
-# @app.route("/dashboard/<str:name>", methods=['POST', 'GET'])
-# def dashboard(name):
-#     if request.method == 'POST':
-#         pass
-#     else:
-#         return name + "hello"
 
 
 

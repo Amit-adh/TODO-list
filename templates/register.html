@@ -16,5 +16,14 @@
 
 
 {% block content %}
-
+<div class="login-form">
+    <form action="/register", method="POST">
+        <div class="form-fields">
+            <input type="text" placeholder="Enter your username"><br>
+            <input type="password" placeholder="Enter your password"><br>
+            <input type="password" placeholder="Reenter your password"><br>
+            <input type="submit" value="Register">
+        </div>
+    </form>
+</div>
 {% endblock %}

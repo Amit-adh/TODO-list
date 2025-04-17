@@ -16,8 +16,12 @@
 
 
 {% block content %}
-<form class="content-btns" action="/" method="POST">
-    <input type="submit" value="SIGN IN">
-    <input type="submit" value="SIGN UP">
-</form>
+<div class="redirect-btns">
+    <form action="{{url_for('register')}}">
+        <button>SIGN UP</button>
+    </form>
+    <form action="{{url_for('login')}}">
+        <button>SIGN IN</button>
+    </form>
+</div>
 {% endblock %}
