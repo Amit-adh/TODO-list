@@ -103,7 +103,7 @@ def add_task():
 
     return redirect(url_for('dashboard', id=user.id))
 
-@app.route('/modisfsfsfffy', methods=['POST'])
+@app.route('/modify', methods=['POST'])
 def modify_task():
     pass
 
