@@ -34,7 +34,19 @@
 
 <div class="box-content">
     <p class="list-title">IMPORTANT TASKS:</p>
-    <ul id="important"></ul>
+    <ul id="important">
+        {% for task in tasks %}
+        <li>
+            {{task.content}}
+            <form action="{{ url_for('modify_task') }}" method="POST">
+                <button type="submit">Modify</button>
+            </form>
+            <form action="{{ url_for('delete_task') }}" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
     <hr>
     <p class="list-title">Normal tasks:</p>
     <ul id="normal"></ul>

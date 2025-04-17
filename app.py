@@ -79,7 +79,8 @@ def dashboard():
     if request.method == 'POST':
         return "registered"
     else:
-        return render_template("dashboard.html", id = user.id)
+        tasks = Todo.query.all()
+        return render_template("dashboard.html", id = user.id, tasks = tasks)
 
 @app.route("/logout", methods=['POST'])
 def logout():
@@ -99,8 +100,16 @@ def add_task():
     task = Todo(content=content, user_id = user.id)
     db.session.add(task)
     db.session.commit()
-    
+
     return redirect(url_for('dashboard', id=user.id))
+
+@app.route('/modisfsfsfffy', methods=['POST'])
+def modify_task():
+    pass
+
+@app.route('/delete', methods=['POST'])
+def delete_task():
+    pass
 
 if __name__ == "__main__":
     app.run(debug=True)
