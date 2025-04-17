@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy # type: ignore
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
-app.secret_key = "your_very_secret_key_here"
+app.secret_key = "A_random_secret_key"
 db = SQLAlchemy(app)
 
 class User(db.Model):
