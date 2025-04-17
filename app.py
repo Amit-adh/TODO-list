@@ -74,7 +74,6 @@ def dashboard():
     if 'user_id' not in session:
         redirect(url_for('login'))
 
-
     id = session['user_id']
     user = User.query.get_or_404(id)
     if request.method == 'POST':
@@ -93,12 +92,15 @@ def add_task():
     if 'user_id' not in session:
         return redirect(url_for("login"))
 
-    # user = User.query.get_or_404(id)
-    # content = request.form['task-text']
-    # task = Todo(content=content)
-    # db.session.add(task)
-    # db.session.commit()
-    # return redirect(url_for('dashboard', id=user.id))
+    user_id = session['user_id']
+    user = User.query.get_or_404(user_id)
+
+    content = request.form['task-text']
+    task = Todo(content=content, user_id = user.id)
+    db.session.add(task)
+    db.session.commit()
+    
+    return redirect(url_for('dashboard', id=user.id))
 
 if __name__ == "__main__":
     app.run(debug=True)
