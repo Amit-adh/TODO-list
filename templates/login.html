@@ -17,11 +17,11 @@
 {% block content %}
 
 <div class="login-form">
-    <form action="/login", method="POST">
+    <form action="/auth_user", method="POST">
         <div class="form-fields">
-            <input type="text" placeholder="Enter your username"><br>
-            <input type="password" placeholder="Enter your password"><br>
-            <input type="submit" value="login">
+            <input type="text" name="username" placeholder="Enter your username"><br>
+            <input type="password" name="password" placeholder="Enter your password"><br>
+            <button type="submit">Submit</button>
         </div>
     </form>
 </div>

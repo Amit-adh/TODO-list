@@ -17,12 +17,12 @@
 
 {% block content %}
 <div class="login-form">
-    <form action="/register", method="POST">
+    <form action="/new_user", method="POST">
         <div class="form-fields">
-            <input type="text" placeholder="Enter your username"><br>
-            <input type="password" placeholder="Enter your password"><br>
-            <input type="password" placeholder="Reenter your password"><br>
-            <input type="submit" value="Register">
+            <input type="text" name='username' placeholder="Enter your username"><br>
+            <input type="password" name="password" placeholder="Enter your password"><br>
+            <input type="password" name="re-pass" placeholder="Reenter your password"><br>
+            <input type="submit" name="submit" value="Register">
         </div>
     </form>
 </div>
