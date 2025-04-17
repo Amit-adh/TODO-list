@@ -69,23 +69,33 @@ def auth_user():
         return "User doesn't exist in records"
 
 
-@app.route("/dashboard/<int:id>", methods=['GET', 'POST'])
-def dashboard(id):
+@app.route("/dashboard", methods=['GET', 'POST'])
+def dashboard():
+    if 'user_id' not in session:
+        redirect(url_for('login'))
+
+
+    id = session['user_id']
     user = User.query.get_or_404(id)
     if request.method == 'POST':
         return "registered"
     else:
-        return render_template("dashboard.html", user=user)
+        return render_template("dashboard.html", id = user.id)
 
 @app.route("/logout", methods=['POST'])
 def logout():
     user_id = session['user_id']
-    session.pop(user_id, None)
+    session.pop('user_id', None)
     return redirect(url_for('login'))
 
-@app.route("/add_task")
-def add_task():
-    return "added task"
+# @app.route("/add_task/<int:id>")
+# def add_task(id):
+#     user = User.query.get_or_404(id)
+#     content = request.form['task-text']
+#     task = Todo(content=content)
+#     db.session.add(task)
+#     db.session.commit()
+#     return redirect(url_for('dashboard', id=user.id))
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -20,12 +20,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="modify-buttons">
+<div class="add-button">
     <form action="{{ url_for('add_task') }}" >
-        <input type="text" id="task-text" placeholder="Enter task">
+        <input type="text" name="task-text" id="task-text" placeholder="Enter task">
         <select name="priority" id="priority">
-            <option value="normal">normal</option>
-            <option value="important">important</option>
+            <option name="normal" value="normal">normal</option>
+            <option name="important" value="important">important</option>
         </select>
         <button id="add-task" type="submit">ADD</button>
     </form>
