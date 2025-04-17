@@ -5,10 +5,10 @@
 {% endblock %}
 
 
-{% block head %}
+{% block body %}
 <div class="box-head">
     <p class="box-title">
-        TO-DO LIST
+        Create your TO-DO LIST
     </p>
 </div>
 <hr>
@@ -17,9 +17,15 @@
 
 {% block content %}
 <div class="redirect-btns">
+    <p style="text-align: center;">
+        Don't Have an Account? Register NOW!
+    </p>
     <form action="{{url_for('register')}}">
         <button>SIGN UP</button>
     </form>
+    <p style="text-align: center;">
+        Already Registered?
+    </p>
     <form action="{{url_for('login')}}">
         <button>SIGN IN</button>
     </form>
