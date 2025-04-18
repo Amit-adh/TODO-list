@@ -17,13 +17,18 @@
 {% block content %}
 
 <div class="login-form">
-    <form action="/auth_user", method="POST">
+    <form action="{{ url_for('auth_user')}}", method="POST">
         <div class="form-fields">
             <input type="text" name="username" placeholder="Enter your username"><br>
             <input type="password" name="password" placeholder="Enter your password"><br>
             <button type="submit">Submit</button>
         </div>
     </form>
+    {% if err %}
+        <script>
+            alert("{{ err_msg }}")
+        </script>
+    {% endif %}
 </div>
 
 {% endblock %}

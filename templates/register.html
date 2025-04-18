@@ -27,7 +27,7 @@
     </form>
     {% if err %}
     <script>
-        alert("Username already exists");
+        alert("{{ err_msg }}");
     </script>
     {% endif %}
 </div>

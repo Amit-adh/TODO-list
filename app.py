@@ -22,7 +22,6 @@ class Todo(db.Model):
         return f'<Todo {self.id} - {self.content}>'
     
 with app.app_context():
-    db.drop_all()
     db.create_all()
 
 
@@ -46,7 +45,7 @@ def new_user():
         re_pass = request.form['re-pass']
         
         if User.query.filter_by(username=username).first():
-            return render_template("register.html", err=True)    
+            return render_template("register.html", err=True, err_msg="Username already exists")    
         
         if(password == re_pass):
             user = User(username=username, password=password)
@@ -54,7 +53,7 @@ def new_user():
             db.session.commit()
             return redirect(url_for("login"))
         else:
-            return "Both passwords must be the same"
+            return render_template("register.html", err=True, err_msg="Both passwords must be the same")
         
     return render_template("register.html", err=False)
 
@@ -74,7 +73,7 @@ def auth_user():
         session['user_id'] = user.id
         return redirect(url_for("dashboard", id = user.id))
     else:
-        return "User doesn't exist in records"
+        return render_template("login.html", err=True, err_msg="User does not exist in records.")
 
 
 @app.route("/dashboard", methods=['GET', 'POST'])
@@ -115,11 +114,13 @@ def add_task():
 
 @app.route('/modify', methods=['POST'])
 def modify_task():
-    pass
+    if 'user_id' not in session:
+        redirect(url_for("index"))
+    return "modify"
 
 @app.route('/delete', methods=['POST'])
 def delete_task():
-    pass
+    return "delete"
 
 if __name__ == "__main__":
     app.run(debug=True)
