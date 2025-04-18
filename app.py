@@ -25,10 +25,10 @@ with app.app_context():
     db.create_all()
 
 
-
 @app.route("/")
 def index():
         return render_template("index.html")
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -36,6 +36,7 @@ def register():
         return redirect(url_for("new_user"))
     else:
         return render_template("register.html", err=False)
+
 
 @app.route("/new_user", methods=['POST', 'GET'])
 def new_user():
@@ -57,12 +58,14 @@ def new_user():
         
     return render_template("register.html", err=False)
 
+
 @app.route("/login", methods=['POST', 'GET'])
 def login():
     if request.method == "POST":
         return redirect(url_for("auth_user"))
     else:
         return render_template("login.html")
+
 
 @app.route("/auth_user", methods=['POST'])
 def auth_user():
@@ -89,11 +92,13 @@ def dashboard():
         tasks = Todo.query.filter_by(user_id=user.id)
         return render_template("dashboard.html", id = user.id, tasks = tasks)
 
+
 @app.route("/logout", methods=['POST'])
 def logout():
     user_id = session['user_id']
     session.pop('user_id', None)
     return redirect(url_for('index'))
+
 
 @app.route("/add_task", methods=['POST'])
 def add_task():
@@ -106,21 +111,42 @@ def add_task():
     content = request.form['task-text'].strip()
     if content != "":
         priority = request.form['priority']
-        task = Todo(content=content, priority=priority, user_id = user.id)
+        task = Todo(content=content, priority=priority, user_id=user.id)
         db.session.add(task)
         db.session.commit()
 
     return redirect(url_for('dashboard', id=user.id))
 
-@app.route('/modify', methods=['POST'])
+
+@app.route('/modify', methods=['POST', 'GET'])
 def modify_task():
     if 'user_id' not in session:
         redirect(url_for("index"))
-    return "modify"
+    
+    user_id = session['user_id']
+    user = User.query.get_or_404(user_id)
+    task_id = request.form['task_id']
+    curr_task = Todo.query.filter_by(id=task_id)
+
+    if request.method == 'POST':
+        return render_template("dashboard.html", id=user.id)
+    
+    else:
+        return render_template("modify.html", user_id=user.id, task = curr_task)
+
 
 @app.route('/delete', methods=['POST'])
 def delete_task():
-    return "delete"
+    if 'user_id' not in session:
+        redirect(url_for("index"))
+    
+    user_id = session['user_id']
+    user = db.query.get_or_404(user_id)
+    task_id = request.form['task_id']
+    curr_task = db.query.get(task_id=task_id)
+    db.session.delete(curr_task)
+    db.commit()
+    return render_template("dashboard.html", id=user_id)
 
 if __name__ == "__main__":
     app.run(debug=True)

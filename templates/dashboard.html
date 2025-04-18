@@ -39,10 +39,12 @@
             {% if task.priority == 'important' %}
             <li>
                 <span class="task-content-span">{{task.content}}</span>
-                <form action="{{ url_for('modify_task') }}" method="POST">
+                <form action="{{ url_for('modify_task') }}">
+                    <input type="hidden" name="task_id" value="{{task.id}}">
                     <button type="submit">Modify</button>
                 </form>
                 <form action="{{ url_for('delete_task') }}" method="POST">
+                    <input type="hidden" name="task_id" value="{{task.id}}">
                     <button type="submit">Delete</button>
                 </form>
             </li>
@@ -56,10 +58,12 @@
             {% if task.priority == 'normal' %}
             <li>
                 <span class="task-content-span">{{task.content}}</span>
-                <form action="{{ url_for('modify_task') }}" method="POST">
+                <form action="{{ url_for('modify_task') }}">
+                    <input type="hidden" name="task_id" value="{{task.id}}">
                     <button type="submit">Modify</button>
                 </form>
                 <form action="{{ url_for('delete_task') }}" method="POST">
+                    <input type="hidden" name="task_id" value="{{task.id}}">
                     <button type="submit">Delete</button>
                 </form>
             </li>
