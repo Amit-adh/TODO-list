@@ -36,20 +36,36 @@
     <p class="list-title">IMPORTANT TASKS:</p>
     <ul id="important">
         {% for task in tasks %}
-        <li>
-            <span class="task-content-span">{{task.content}}</span>
-            <form action="{{ url_for('modify_task') }}" method="POST">
-                <button type="submit">Modify</button>
-            </form>
-            <form action="{{ url_for('delete_task') }}" method="POST">
-                <button type="submit">Delete</button>
-            </form>
-        </li>
+            {% if task.priority == 'important' %}
+            <li>
+                <span class="task-content-span">{{task.content}}</span>
+                <form action="{{ url_for('modify_task') }}" method="POST">
+                    <button type="submit">Modify</button>
+                </form>
+                <form action="{{ url_for('delete_task') }}" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+            {% endif %}
         {% endfor %}
     </ul>
     <hr>
     <p class="list-title">Normal tasks:</p>
-    <ul id="normal"></ul>
+    <ul id="normal">
+        {% for task in tasks %}
+            {% if task.priority == 'normal' %}
+            <li>
+                <span class="task-content-span">{{task.content}}</span>
+                <form action="{{ url_for('modify_task') }}" method="POST">
+                    <button type="submit">Modify</button>
+                </form>
+                <form action="{{ url_for('delete_task') }}" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
 </div>
 
 

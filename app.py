@@ -15,12 +15,14 @@ class User(db.Model):
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(100), nullable=False)
+    priority = db.Column(db.String(10), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
         return f'<Todo {self.id} - {self.content}>'
     
 with app.app_context():
+    db.drop_all()
     db.create_all()
 
 
@@ -92,7 +94,7 @@ def dashboard():
 def logout():
     user_id = session['user_id']
     session.pop('user_id', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 @app.route("/add_task", methods=['POST'])
 def add_task():
@@ -102,10 +104,12 @@ def add_task():
     user_id = session['user_id']
     user = User.query.get_or_404(user_id)
 
-    content = request.form['task-text']
-    task = Todo(content=content, user_id = user.id)
-    db.session.add(task)
-    db.session.commit()
+    content = request.form['task-text'].strip()
+    if content != "":
+        priority = request.form['priority']
+        task = Todo(content=content, priority=priority, user_id = user.id)
+        db.session.add(task)
+        db.session.commit()
 
     return redirect(url_for('dashboard', id=user.id))
 
