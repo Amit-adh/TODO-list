@@ -24,6 +24,12 @@
             <button type="submit">Submit</button>
         </div>
     </form>
+    <p style="text-align: center;">
+        Don't Have an Account? Register NOW!
+    </p>
+    <form action="{{url_for('register')}}">
+        <button>SIGN UP</button>
+    </form>
     {% if err %}
         <script>
             alert("{{ err_msg }}")
