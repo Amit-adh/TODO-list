@@ -87,7 +87,7 @@ def dashboard():
     if request.method == 'POST':
         return "registered"
     else:
-        tasks = Todo.query.all()
+        tasks = Todo.query.filter_by(user_id=user.id)
         return render_template("dashboard.html", id = user.id, tasks = tasks)
 
 @app.route("/logout", methods=['POST'])
