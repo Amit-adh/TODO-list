@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect, session # type: ignore
 from flask_sqlalchemy import SQLAlchemy # type: ignore
+import re
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
@@ -9,6 +10,7 @@ db = SQLAlchemy(app)
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     tasks = db.relationship('Todo', backref='user', lazy=True)
 
@@ -18,10 +20,9 @@ class Todo(db.Model):
     priority = db.Column(db.String(10), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __repr__(self):
-        return f'<Todo {self.id} - {self.content}>'
     
 with app.app_context():
+    db.drop_all()
     db.create_all()
 
 
@@ -35,27 +36,33 @@ def register():
     if request.method == 'POST':
         return redirect(url_for("new_user"))
     else:
-        return render_template("register.html", err=False)
+        return render_template("register.html")
 
 
 @app.route("/new_user", methods=['POST', 'GET'])
 def new_user():
     if request.method == 'POST':
         username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
         re_pass = request.form['re-pass']
+        email_pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
         
         if User.query.filter_by(username=username).first():
-            return  render_template("register.html", err=True, err_msg="Username already exists")    
+            return render_template("register.html", err=True, err_msg="Username already exists")    
         
-        if(password == re_pass):
-            user = User(username=username, password=password)
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for("login"))
-        else:
+        elif not re.match(email_pattern, email):
+            return render_template("register.html", err=True, err_msg="Invalid Email")
+        
+        elif  password != re_pass:
             return render_template("register.html", err=True, err_msg="Both passwords must be the same")
         
+
+        user = User(username=username, email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for("login"))
+    
     return render_template("register.html", err=False)
 
 
@@ -88,7 +95,7 @@ def dashboard():
     user = User.query.get_or_404(id)
 
     tasks = Todo.query.filter_by(user_id=user.id)
-    return render_template("dashboard.html", tasks = tasks)
+    return render_template("dashboard.html", tasks = tasks, username=user.username)
 
 
 @app.route("/logout", methods=['POST'])
