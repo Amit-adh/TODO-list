@@ -46,7 +46,7 @@ def new_user():
         re_pass = request.form['re-pass']
         
         if User.query.filter_by(username=username).first():
-            return render_template("register.html", err=True, err_msg="Username already exists")    
+            return  render_template("register.html", err=True, err_msg="Username already exists")    
         
         if(password == re_pass):
             user = User(username=username, password=password)
@@ -74,23 +74,21 @@ def auth_user():
     user = User.query.filter_by(username=username, password=password).first()
     if user:
         session['user_id'] = user.id
-        return redirect(url_for("dashboard", id = user.id))
+        return redirect(url_for("dashboard"))
     else:
-        return render_template("login.html", err=True, err_msg="User does not exist in records.")
+        return redirect(url_for("login", err=True, err_msg="User does not exist in records."))
 
 
-@app.route("/dashboard", methods=['GET', 'POST'])
+@app.route("/dashboard")
 def dashboard():
     if 'user_id' not in session:
-        redirect(url_for('login'))
+         return redirect(url_for('login'))
 
     id = session['user_id']
     user = User.query.get_or_404(id)
-    if request.method == 'POST':
-        return "registered"
-    else:
-        tasks = Todo.query.filter_by(user_id=user.id)
-        return render_template("dashboard.html", id = user.id, tasks = tasks)
+
+    tasks = Todo.query.filter_by(user_id=user.id)
+    return render_template("dashboard.html", tasks = tasks)
 
 
 @app.route("/logout", methods=['POST'])
@@ -115,38 +113,51 @@ def add_task():
         db.session.add(task)
         db.session.commit()
 
-    return redirect(url_for('dashboard', id=user.id))
+    return redirect(url_for('dashboard'))
 
 
 @app.route('/modify', methods=['POST', 'GET'])
 def modify_task():
     if 'user_id' not in session:
-        redirect(url_for("index"))
+         return redirect(url_for("index"))
     
     user_id = session['user_id']
     user = User.query.get_or_404(user_id)
-    task_id = request.form['task_id']
-    curr_task = Todo.query.filter_by(id=task_id)
 
     if request.method == 'POST':
-        return render_template("dashboard.html", id=user.id)
+        task_content = request.form['modified-text']
+        task_id = session['curr_task']
+        session.pop('curr_task', None)
+        curr_task = Todo.query.filter_by(user_id=user.id, id=task_id).first()
+        curr_task.content = task_content
+        db.session.commit()
+
+        tasks = Todo.query.filter_by(user_id = user.id)
+        return redirect(url_for("dashboard", tasks=tasks))
     
     else:
-        return render_template("modify.html", user_id=user.id, task = curr_task)
+        task_id = int(request.args['task_id'])
+        session['curr_task'] = task_id
+        curr_task = Todo.query.filter_by(user_id = user.id, id=task_id).first()
+        return render_template("modify.html", task = curr_task)
 
 
 @app.route('/delete', methods=['POST'])
 def delete_task():
     if 'user_id' not in session:
-        redirect(url_for("index"))
+         return redirect(url_for("index"))
     
     user_id = session['user_id']
-    user = db.query.get_or_404(user_id)
+    user = User.query.get_or_404(user_id)
+
     task_id = request.form['task_id']
-    curr_task = db.query.get(task_id=task_id)
+    curr_task = Todo.query.get_or_404(task_id)
+
     db.session.delete(curr_task)
-    db.commit()
-    return render_template("dashboard.html", id=user_id)
+    db.session.commit()
+
+    tasks = Todo.query.filter_by(user_id = user.id)
+    return redirect(url_for("dashboard", tasks=tasks))
 
 if __name__ == "__main__":
     app.run(debug=True)
