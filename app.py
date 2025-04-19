@@ -110,6 +110,7 @@ def add_task():
     if content != "":
         priority = request.form['priority']
         task = Todo(content=content, priority=priority, user_id=user.id)
+
         db.session.add(task)
         db.session.commit()
 
@@ -125,13 +126,14 @@ def modify_task():
     user = User.query.get_or_404(user_id)
 
     if request.method == 'POST':
-        task_content = request.form['modified-text']
         task_id = session['curr_task']
         session.pop('curr_task', None)
-        curr_task = Todo.query.filter_by(user_id=user.id, id=task_id).first()
-        curr_task.content = task_content
         db.session.commit()
 
+        task_content = request.form['modified-text']
+        curr_task = Todo.query.filter_by(user_id=user.id, id=task_id).first()
+        curr_task.content = task_content
+        
         tasks = Todo.query.filter_by(user_id = user.id)
         return redirect(url_for("dashboard", tasks=tasks))
     
@@ -139,6 +141,7 @@ def modify_task():
         task_id = int(request.args['task_id'])
         session['curr_task'] = task_id
         curr_task = Todo.query.filter_by(user_id = user.id, id=task_id).first()
+
         return render_template("modify.html", task = curr_task)
 
 
