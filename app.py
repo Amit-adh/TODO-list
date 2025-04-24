@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, session # type: ignore
 from flask_sqlalchemy import SQLAlchemy # type: ignore
 import re
+from functools import wraps
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
@@ -20,7 +21,16 @@ class Todo(db.Model):
     priority = db.Column(db.String(10), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    
+
+def login_required(func):
+    @wraps(func)
+    def login_wrapper(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for("login"))
+        return func(*args, **kwargs)
+    return login_wrapper
+
+
 with app.app_context():
     db.create_all()
 
@@ -86,9 +96,8 @@ def auth_user():
 
 
 @app.route("/dashboard")
+@login_required
 def dashboard():
-    if 'user_id' not in session:
-         return redirect(url_for('login'))
 
     id = session['user_id']
     user = User.query.get_or_404(id)
@@ -105,10 +114,8 @@ def logout():
 
 
 @app.route("/add_task", methods=['POST'])
+@login_required
 def add_task():
-    if 'user_id' not in session:
-        return redirect(url_for("login"))
-
     user_id = session['user_id']
     user = User.query.get_or_404(user_id)
 
@@ -124,10 +131,8 @@ def add_task():
 
 
 @app.route('/modify', methods=['POST', 'GET'])
+@login_required
 def modify_task():
-    if 'user_id' not in session:
-         return redirect(url_for("index"))
-    
     user_id = session['user_id']
     user = User.query.get_or_404(user_id)
 
@@ -152,10 +157,8 @@ def modify_task():
 
 
 @app.route('/delete', methods=['POST'])
+@login_required
 def delete_task():
-    if 'user_id' not in session:
-         return redirect(url_for("index"))
-    
     user_id = session['user_id']
     user = User.query.get_or_404(user_id)
 
