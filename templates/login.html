@@ -17,7 +17,7 @@
 {% block content %}
 
 <div class="login-form">
-    <form action="{{ url_for('auth_user')}}", method="POST">
+    <form action="{{ url_for('auth.verify_user')}}", method="POST">
         <div class="form-fields">
             <input type="text" name="username" placeholder="Enter your username"><br>
             <input type="password" name="password" placeholder="Enter your password"><br>

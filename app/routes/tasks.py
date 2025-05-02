@@ -1,7 +1,9 @@
 from flask import Blueprint, session, request, redirect, url_for, render_template
-from ..models import Todo, User
 from app.utils import login_required
-from app import db
+
+def get_db():
+    from app import db
+    return db
 
 tasks = Blueprint("tasks", __name__)
 
@@ -9,6 +11,8 @@ tasks = Blueprint("tasks", __name__)
 @tasks.route("/add_task", methods=['POST'])
 @login_required
 def add_task():
+    from app.models import Todo, User
+    db = get_db()
     user_id = session['user_id']
     user = User.query.get_or_404(user_id)
 
@@ -26,6 +30,8 @@ def add_task():
 @tasks.route('/modify', methods=['POST', 'GET'])
 @login_required
 def modify_task():
+    from app.models import Todo, User
+    db = get_db()
     user_id = session['user_id']
     user = User.query.get_or_404(user_id)
 
@@ -52,6 +58,8 @@ def modify_task():
 @tasks.route('/delete', methods=['POST'])
 @login_required
 def delete_task():
+    from app.models import Todo, User
+    db = get_db()
     user_id = session['user_id']
     user = User.query.get_or_404(user_id)
 

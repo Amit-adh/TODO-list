@@ -1,5 +1,8 @@
-from app import db
-class User(db.Model):
+def get_db():
+    from app import db
+    return db
+class User(get_db().Model):
+    db = get_db()
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False)
@@ -15,7 +18,8 @@ class User(db.Model):
     def check_password(self):
         pass
 
-class Todo(db.Model):
+class Todo(get_db().Model):
+    db = get_db()
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(100), nullable=False)
     priority = db.Column(db.String(10), nullable=False)

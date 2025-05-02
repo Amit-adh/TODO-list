@@ -1,13 +1,13 @@
 from flask import request, render_template, redirect, url_for, Blueprint
 import re
-from app import db
-from app.models import User
 
-new_user = Blueprint("new_user", __name__, static_folder="static", template_folder="templates")
+new_user = Blueprint("new_user", __name__)
 
-@new_user.route("/new_user", methods=['POST', 'GET'])
-def new_user():
+@new_user.route("/", methods=['POST', 'GET'])
+def new_user_register():
     if request.method == 'POST':
+        from app import db
+        from app.models import User
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
@@ -27,6 +27,6 @@ def new_user():
         user = User(username=username, email=email, password=password)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for("login"))
+        return redirect(url_for("auth.login"))
     
     return render_template("register.html", err=False)

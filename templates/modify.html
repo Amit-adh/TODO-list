@@ -15,7 +15,7 @@
 
 {% block content %}
 <div class="modify-buttons">
-    <form action="{{url_for('modify_task')}}" method="POST">
+    <form action="{{url_for('tasks.modify_task')}}" method="POST">
         <input type="text" name="modified-text" value="{{task.content}}">
         <button type="submit">Modify</button>
     </form>
