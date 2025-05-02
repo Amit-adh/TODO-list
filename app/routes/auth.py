@@ -1,8 +1,15 @@
-from flask import Blueprint, redirect, request, session, url_for
+from flask import Blueprint, redirect, request, session, url_for, render_template
 from . import login_required
 from ..models import User
 
 auth = Blueprint("auth", __name__, static_folder="static", template_folder="templates")
+
+@auth.route("/login", methods=['POST', 'GET'])
+def login():
+    if request.method == "POST":
+        return redirect(url_for("auth_user"))
+    else:
+        return render_template("login.html")
 
 @auth.route("/auth_user", methods=["POST"])
 @login_required
