@@ -4,7 +4,7 @@ from datetime import timedelta
 import config
 from app.routes.auth import auth_user
 from app.routes.new_user import new_user
-from models import Todo, User
+from app.models import Todo, User
 from app.utils import login_required
 
 
