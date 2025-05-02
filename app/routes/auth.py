@@ -1,8 +1,8 @@
 from flask import Blueprint, redirect, request, session, url_for, render_template
-from . import login_required
+from app.utils import login_required
 from ..models import User
 
-auth = Blueprint("auth", __name__, static_folder="static", template_folder="templates")
+auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=['POST', 'GET'])
 def login():

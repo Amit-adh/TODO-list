@@ -1,6 +1,7 @@
 from flask import Blueprint, session, request, redirect, url_for, render_template
 from ..models import Todo, User
-from .. import login_required, db
+from app.utils import login_required
+from app import db
 
 tasks = Blueprint("tasks", __name__)
 

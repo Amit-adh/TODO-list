@@ -1,22 +1,14 @@
 from flask import Flask, session, blueprints, request, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
-from .. import config
-from routes.auth import auth_user
-from routes.new_user import new_user
+import config
+from app.routes.auth import auth_user
+from app.routes.new_user import new_user
 from models import Todo, User
-from functools import wraps
+from app.utils import login_required
+
 
 db = SQLAlchemy()
-
-
-def login_required(func):
-    @wraps(func)
-    def login_wrapper(*args, **kwargs):
-        if 'user_id' not in session:
-            return redirect(url_for("login"))
-        return func(*args, **kwargs)
-    return login_wrapper
 
 
 def create_app():
