@@ -3,15 +3,27 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
 from .. import config
 from routes.auth import auth_user
-import models
+from routes.new_user import new_user
+from models import Todo, User
+from functools import wraps
 
 db = SQLAlchemy()
+
+
+def login_required(func):
+    @wraps(func)
+    def login_wrapper(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for("login"))
+        return func(*args, **kwargs)
+    return login_wrapper
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
     app.register_blueprint(auth_user, url_prefix="")
+    app.register_blueprint(new_user, url_prefix="")
     db.init_app(app)
 
     @app.route("/")
@@ -25,6 +37,23 @@ def create_app():
             return redirect(url_for("new_user"))
         else:
             return render_template("register.html")
+        
+    @app.route("/dashboard")
+    @login_required
+    def dashboard():
+
+        id = session['user_id']
+        user = User.query.get_or_404(id)
+
+        tasks = Todo.query.filter_by(user_id=user.id)
+        return render_template("dashboard.html", tasks = tasks, username=user.username)
+
+
+    @app.route("/logout", methods=['POST'])
+    def logout():
+        user_id = session['user_id']
+        session.pop('user_id', None)
+        return redirect(url_for('index'))
 
 
     with app.app_context():

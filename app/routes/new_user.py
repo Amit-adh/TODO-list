@@ -3,7 +3,7 @@ import re
 from .. import db
 from ..models import User
 
-new_user = Blueprint(__name__, url_prefix="")
+new_user = Blueprint("new_user", __name__, static_folder="static", template_folder="templates")
 
 @new_user.route("/new_user", methods=['POST', 'GET'])
 def new_user():
