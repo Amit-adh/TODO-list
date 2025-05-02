@@ -1,6 +1,5 @@
 from flask import Blueprint, redirect, request, session, url_for, render_template
 from app.utils import login_required
-from ..models import User
 
 auth = Blueprint("auth", __name__)
 
@@ -16,6 +15,7 @@ def login():
 def auth_user():
     username = request.form['username']
     password = request.form['password']
+    from app.models import User
     user = User.query.filter_by(username=username, password=password).first()
     if user:
         session['user_id'] = user.id

@@ -4,7 +4,6 @@ from datetime import timedelta
 import config
 from app.routes.auth import auth_user
 from app.routes.new_user import new_user
-from app.models import Todo, User
 from app.utils import login_required
 
 
@@ -14,9 +13,12 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
+    db.init_app(app)
+
+    from app.models import Todo, User
+
     app.register_blueprint(auth_user, url_prefix="")
     app.register_blueprint(new_user, url_prefix="")
-    db.init_app(app)
 
     @app.route("/")
     def index():
@@ -33,7 +35,9 @@ def create_app():
     @app.route("/dashboard")
     @login_required
     def dashboard():
-
+        if "user_id" not in session:
+             return redirect(url_for("login"))
+        
         id = session['user_id']
         user = User.query.get_or_404(id)
 

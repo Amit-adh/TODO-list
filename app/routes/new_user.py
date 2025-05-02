@@ -1,7 +1,7 @@
 from flask import request, render_template, redirect, url_for, Blueprint
 import re
-from .. import db
-from ..models import User
+from app import db
+from app.models import User
 
 new_user = Blueprint("new_user", __name__, static_folder="static", template_folder="templates")
 
