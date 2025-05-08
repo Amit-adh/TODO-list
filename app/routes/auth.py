@@ -11,7 +11,6 @@ def login():
         return render_template("login.html")
 
 @auth.route("/verify_user", methods=["POST"])
-@login_required
 def verify_user():
     from app.models import User
     print("yes")
