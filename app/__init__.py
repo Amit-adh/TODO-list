@@ -1,5 +1,5 @@
 from flask import Flask, session, blueprints, request, render_template, url_for, redirect
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy # type: ignore
 from datetime import timedelta
 import config
 from app.routes.auth import auth
