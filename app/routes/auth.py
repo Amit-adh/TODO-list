@@ -4,7 +4,7 @@ from app.utils import login_required
 auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=['POST', 'GET'])
-def login():
+def login(err=False, err_msg=None):
     if request.method == "POST":
         return redirect(url_for("auth.verify_user"))
     else:
