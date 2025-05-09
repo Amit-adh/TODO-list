@@ -13,7 +13,7 @@
 </div>
 <div class="logout" style="display: flex; justify-content: right;">
     <form action="{{ url_for('logout') }}" method="POST">
-        <button type="submit">Log out</button>
+        <button class="button-81" type="submit" >Log out</button>
     </form>
 </div>
 <hr>
@@ -27,7 +27,7 @@
             <option name="normal" value="normal">normal</option>
             <option name="important" value="important">important</option>
         </select>
-        <button id="add-task" type="submit">ADD</button>
+        <button id="add-task" class="button-81" type="submit">ADD</button>
     </form>
 
 </div>
@@ -41,11 +41,11 @@
                 <span class="task-content-span">{{task.content}}</span>
                 <form action="{{ url_for('tasks.modify_task') }}" method="GET">
                     <input type="hidden" name="task_id" value="{{task.id}}">
-                    <button type="submit">Modify</button>
+                    <button class="button-81" type="submit">Modify</button>
                 </form>
                 <form action="{{ url_for('tasks.delete_task') }}" method="POST">
                     <input type="hidden" name="task_id" value="{{task.id}}">
-                    <button type="submit">Delete</button>
+                    <button class="button-81" type="submit">Delete</button>
                 </form>
             </li>
             {% endif %}
@@ -60,11 +60,11 @@
                 <span class="task-content-span">{{task.content}}</span>
                 <form action="{{ url_for('tasks.modify_task') }}" method="GET">
                     <input type="hidden" name="task_id" value="{{task.id}}">
-                    <button type="submit">Modify</button>
+                    <button class="button-81" type="submit">Modify</button>
                 </form>
                 <form action="{{ url_for('tasks.delete_task') }}" method="POST">
                     <input type="hidden" name="task_id" value="{{task.id}}">
-                    <button type="submit">Delete</button>
+                    <button class="button-81" type="submit">Delete</button>
                 </form>
             </li>
             {% endif %}

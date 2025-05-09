@@ -23,14 +23,14 @@
             <input type="text" name='email' placeholder="Enter your email"><br>
             <input type="password" name="password" placeholder="Enter your password"><br>
             <input type="password" name="re-pass" placeholder="Reenter your password"><br>
-            <input type="submit" name="submit" value="Register">
+            <input class="button-81" role="button" type="submit" name="submit" value="Register">
         </div>
     </form>
     <p style="text-align: center;">
         Already Registered?
     </p>
     <form action="{{url_for('auth.login')}}">
-        <button>SIGN IN</button>
+        <button class="button-81">SIGN IN</button>
     </form>
     {% if err %}
     <script>
