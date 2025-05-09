@@ -1,2 +1,0 @@
-SQLALCHEMY_DATABASE_URI = 'sqlite:///todo.db'
-SECRET_KEY = 'a3Dg2zhP2V3LD8kStBkr56nxZWWZS1p0'
