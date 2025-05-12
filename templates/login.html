@@ -21,15 +21,26 @@
         <div class="form-fields">
             <input type="text" name="username" placeholder="Enter your username"><br>
             <input type="password" name="password" placeholder="Enter your password"><br>
-            <button class="button-81" type="submit" style="margin-top:10px">Submit</button>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <button class="button-81" style="width: 100%; margin-top: 20px;">Submit</button>
+            </div>
         </div>
     </form>
 
-    <hr style="margin-top:75px">
+    <hr style="margin-top:120px">
     
+    <p style="text-align: center;">
+        Don't Have an Account?
+    </p>
     <div class="text-center">
         <form action="{{url_for('register')}}">
-            <button class="button-81 login-buttons"> Don't Have an Account?</button>
+            <div class="row">
+                <div class="col-10 offset-1">
+                    <button class="button-81 login-buttons" style="width: 100%;">Register Now</button>
+                </div>
+            </div>
         </form>
     </div>
 
