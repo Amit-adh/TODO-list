@@ -19,8 +19,8 @@
 <div class="login-form">
     <form action="{{ url_for('new_user.new_user_register') }}", method="POST">
         <div class="form-fields">
-            <input type="text" name='username' placeholder="Enter your username"><br>
-            <input type="text" name='email' placeholder="Enter your email"><br>
+            <input type="text" name='username' placeholder="Enter your username" value="{{uname}}"><br>
+            <input type="text" name='email' placeholder="Enter your email" value="{{email}}"><br>
             <input type="password" name="password" placeholder="Enter your password"><br>
             <input type="password" name="re-pass" placeholder="Reenter your password"><br>
         </div>

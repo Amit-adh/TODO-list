@@ -18,10 +18,10 @@ def new_user_register():
             return render_template("register.html", err=True, err_msg="Username already exists")    
         
         elif not re.match(email_pattern, email):
-            return render_template("register.html", err=True, err_msg="Invalid Email")
+            return render_template("register.html", err=True, err_msg="Invalid Email", uname=username)
         
         elif  password != re_pass:
-            return render_template("register.html", err=True, err_msg="Both passwords must be the same")
+            return render_template("register.html", err=True, err_msg="Both passwords must be the same", uname=username, email=email)
         
 
         user = User(username=username, email=email, password=password)
