@@ -107,3 +107,7 @@ html{
     justify-self: center;
     margin-top:10px
 }
+
+.form-control{
+    margin: 10px 0px;
+}

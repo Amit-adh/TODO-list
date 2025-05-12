@@ -19,13 +19,13 @@
 <div class="login-form">
     <form action="{{ url_for('new_user.new_user_register') }}", method="POST">
         <div class="form-fields">
-            <input type="text" name='username' placeholder="Enter your username" value="{{uname}}"><br>
-            <input type="text" name='email' placeholder="Enter your email" value="{{email}}"><br>
-            <input type="password" name="password" placeholder="Enter your password"><br>
-            <input type="password" name="re-pass" placeholder="Reenter your password"><br>
+            <input type="text" class="form-control" name='username' placeholder="Enter your username" value="{{uname}}">
+            <input type="email" class="form-control" name='email' placeholder="Enter your email" value="{{email}}">
+            <input type="password" class="form-control" name="password" placeholder="Enter your password">
+            <input type="password" class="form-control" name="re-pass" placeholder="Reenter your password">
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-10 offset-1">
                 <button class="button-81" style="width: 100%; margin-top: 20px;">Register</button>
             </div>
         </div>

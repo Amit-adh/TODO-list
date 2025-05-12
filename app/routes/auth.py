@@ -1,10 +1,10 @@
-from flask import Blueprint, redirect, request, session, url_for, render_template
+from flask import Blueprint, redirect, request, session, url_for, render_template, flash
 from app.utils import login_required
 
 auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=['POST', 'GET'])
-def login(err=False, err_msg=None):
+def login():
     if request.method == "POST":
         return redirect(url_for("auth.verify_user"))
     else:
@@ -20,5 +20,6 @@ def verify_user():
         session['user_id'] = user.id
         return redirect(url_for("dashboard"))
     else:
-        return redirect(url_for("auth.login", err=True, err_msg="User does not exist in records."))
+        flash("User doesn't exist.", category="username_error")
+        return redirect(url_for("auth.login"))
     
