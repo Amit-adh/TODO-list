@@ -19,10 +19,50 @@
 <div class="login-form">
     <form action="{{ url_for('new_user.new_user_register') }}", method="POST">
         <div class="form-fields">
-            <input type="text" class="form-control" name='username' placeholder="Enter your username" value="{{uname}}">
-            <input type="email" class="form-control" name='email' placeholder="Enter your email" value="{{email}}">
-            <input type="password" class="form-control" name="password" placeholder="Enter your password">
-            <input type="password" class="form-control" name="re-pass" placeholder="Reenter your password">
+            
+            {% set errors = {} %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for msg, category in messages %}
+                    {% set _ = errors.update({category: msg}) %}
+                {% endfor %}
+            {% endwith %}
+
+            <input type="text" class="form-control {% if errors.username_error %}is-invalid{% endif %}" 
+                name='username' placeholder="Enter your username" value="{{uname}}">
+
+            {% if errors.username_error %}
+                <div class="invalid-feedback">
+                    {{ errors.username_error }}
+                </div>
+            {% endif %}
+
+            <input type="email" class="form-control {% if errors.email_error %}is-invalid{% endif %}" 
+                name='email' placeholder="Enter your email" value="{{email}}">
+
+            {% if errors.email_error %}
+                <div class="invalid-feedback">
+                    {{ errors.email_error }}
+                </div>
+            {% endif %}
+
+            <input type="password" class="form-control {% if errors.empty_password %}is-invalid{% endif %}" 
+                name="password" placeholder="Enter your password">
+
+            {% if errors.empty_password %}
+                <div class="invalid-feedback">
+                    {{ errors.empty_password }}
+                </div>
+            {% endif %}
+
+            <input type="password" class="form-control {% if errors.different_passwords %}is-invalid{% endif %}" 
+                name="re-pass" placeholder="Reenter your password">
+
+            {% if errors.different_passwords %}
+                <div class="invalid-feedback">
+                    {{ errors.different_passwords }}
+                </div>
+            {% endif %}
+
         </div>
         <div class="row">
             <div class="col-10 offset-1">
