@@ -17,49 +17,61 @@
 
 {% block content %}
 <div class="login-form">
-    <form action="{{ url_for('new_user.new_user_register') }}", method="POST">
+    <form action="{{ url_for('new_user.new_user_register') }}" method="POST">
         <div class="form-fields">
             
-            {% set errors = {} %}
+            {% set username_error = None %}
+            {% set email_error = None %}
+            {% set empty_password = None %}
+            {% set different_passwords = None %}
+
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% for msg, category in messages %}
-                    {% set _ = errors.update({category: msg}) %}
+                    {% if category == 'username_error' %}
+                        {% set username_error = msg %}
+                    {% elif category == 'email_error' %}
+                        {% set email_error = msg %}
+                    {% elif category == 'empty_password' %}
+                        {% set empty_password = msg %}
+                    {% elif category == 'different_passwords' %}
+                        {% set different_passwords = msg %}
+                    {% endif %}
                 {% endfor %}
             {% endwith %}
 
-            <input type="text" class="form-control {% if errors.username_error %}is-invalid{% endif %}" 
+            <input type="text" class="form-control {% if username_error %}is-invalid{% endif %}" 
                 name='username' placeholder="Enter your username" value="{{uname}}">
 
-            {% if errors.username_error %}
+            {% if username_error %}
                 <div class="invalid-feedback">
-                    {{ errors.username_error }}
+                    {{ username_error }}
                 </div>
             {% endif %}
 
-            <input type="email" class="form-control {% if errors.email_error %}is-invalid{% endif %}" 
+            <input type="email" class="form-control {% if email_error %}is-invalid{% endif %}" 
                 name='email' placeholder="Enter your email" value="{{email}}">
 
-            {% if errors.email_error %}
+            {% if email_error %}
                 <div class="invalid-feedback">
-                    {{ errors.email_error }}
+                    {{ email_error }}
                 </div>
             {% endif %}
 
-            <input type="password" class="form-control {% if errors.empty_password %}is-invalid{% endif %}" 
+            <input type="password" class="form-control {% if empty_password %}is-invalid{% endif %}" 
                 name="password" placeholder="Enter your password">
 
-            {% if errors.empty_password %}
+            {% if empty_password %}
                 <div class="invalid-feedback">
-                    {{ errors.empty_password }}
+                    {{ empty_password }}
                 </div>
             {% endif %}
 
-            <input type="password" class="form-control {% if errors.different_passwords %}is-invalid{% endif %}" 
-                name="re-pass" placeholder="Reenter your password">
+            <input type="password" class="form-control {% if different_passwords %}is-invalid{% endif %}" 
+                name="repass" placeholder="Reenter your password">
 
-            {% if errors.different_passwords %}
+            {% if different_passwords %}
                 <div class="invalid-feedback">
-                    {{ errors.different_passwords }}
+                    {{ different_passwords }}
                 </div>
             {% endif %}
 
@@ -81,10 +93,5 @@
             </div>
         </div>
     </form>
-    {% if err %}
-    <script>
-        alert("{{ err_msg }}");
-    </script>
-    {% endif %}
 </div>
 {% endblock %}
