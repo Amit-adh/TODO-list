@@ -1,25 +1,24 @@
 from flask import Blueprint, redirect, request, session, url_for, render_template, flash
 from app.utils import login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=['POST', 'GET'])
 def login():
     if request.method == "POST":
-        return redirect(url_for("auth.verify_user"))
+        from app.models import User
+        username = request.form.get('username', "")
+        password = request.form.get('password', "")
+        user = User.query.filter_by(username=username).first()
+
+        if user and check_password_hash(user.password, password):
+            session['user_id'] = user.id
+            return redirect(url_for("dashboard"))
+        else:
+            flash("Invalid username or password", category="login_error")
+            return redirect(url_for("auth.login"))
     else:
         return render_template("login.html")
 
-@auth.route("/verify_user", methods=["POST"])
-def verify_user():
-    from app.models import User
-    username = request.form['username']
-    password = request.form['password']
-    user = User.query.filter_by(username=username, password=password).first()
-    if user:
-        session['user_id'] = user.id
-        return redirect(url_for("dashboard"))
-    else:
-        flash("User doesn't exist.", category="username_error")
-        return redirect(url_for("auth.login"))
     

@@ -17,20 +17,20 @@
 {% block content %}
 
 <div class="login-form">
-    <form action="{{ url_for('auth.verify_user')}}" method="POST">
+    <form action="{{ url_for('auth.login')}}" method="POST">
         <div class="form-fields">
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% set username_error = None %}
+                {% set login_error = None %}
                 {% for category, msg in messages %}
-                    {% if category == 'username_error' %}
-                        {% set username_error = msg %}
+                    {% if category == 'login_error' %}
+                        {% set login_error = msg %}
                     {% endif %}
                 {% endfor %}
             {% endwith %}
-            <input type="text" class="form-control {% if username_error %}is-invalid{% endif %}" name="username" placeholder="Enter your username">
-            {% if username_error %}
+            <input type="text" class="form-control {% if login_error %}is-invalid{% endif %}" name="username" placeholder="Enter your username">
+            {% if login_error %}
                 <div class="invalid-feedback">
-                    {{ username_error }}
+                    {{ login_error }}
                 </div>
             {% endif %}
 

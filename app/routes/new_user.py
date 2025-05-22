@@ -15,9 +15,12 @@ def new_user_register():
         email_pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
         
         if User.query.filter_by(username=username).first():
-            print("DEBUG: Username already exists")
             flash("Username already exists", category="username_error")
-            return render_template("register.html", uname=username, email=email)    
+            return render_template("register.html", uname=username, email=email)
+
+        elif username == "":
+            flash("Username must not be empty")
+            return render_template('register.html', email=email)
         
         elif not re.match(email_pattern, email):
             flash("Invalid Email", category="email_error")
@@ -32,7 +35,8 @@ def new_user_register():
             return render_template("register.html", uname=username, email=email)
         
 
-        user = User(username=username, email=email, password=password)
+        user = User(username=username, email=email)
+        user.password = user.generate_password(password)
         db.session.add(user)
         db.session.commit()
         return redirect(url_for("auth.login"))
