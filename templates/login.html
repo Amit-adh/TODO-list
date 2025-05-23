@@ -27,7 +27,8 @@
                     {% endif %}
                 {% endfor %}
             {% endwith %}
-            <input type="text" class="form-control {% if login_error %}is-invalid{% endif %}" name="username" placeholder="Enter your username">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control {% if login_error %}is-invalid{% endif %}" name="username" id="username" placeholder="Enter your username">
             {% if login_error %}
                 <div class="invalid-feedback">
                     {{ login_error }}
