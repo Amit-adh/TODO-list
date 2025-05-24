@@ -20,14 +20,13 @@
     <form action="{{ url_for('new_user.new_user_register') }}" method="POST">
         <div class="form-fields">
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% set username_error = None %}
+            {% set email_error = None %}
+            {% set empty_password = None %}
+            {% set different_passwords = None %}
 
-                {% set username_error = None %}
-                {% set email_error = None %}
-                {% set empty_password = None %}
-                {% set different_passwords = None %}
-                
-                {% for msg, category in messages %}
+            {% with messages = get_flashed_messages(with_categories=true) %}                
+                {% for category, msg in messages %}
                     {% if category == 'username_error' %}
                         {% set username_error = msg %}
                     {% elif category == 'email_error' %}
@@ -39,7 +38,7 @@
                     {% endif %}
                 {% endfor %}
 
-                <input type="text" class="form-control {% if username_error %}is-invalid{% endif %}" 
+                <input type="text" class="form-control {% if username_error %}is-invalid{% endif %}" id="username"
                     name='username' placeholder="Enter your username" value="{{uname}}" required>
 
                 {% if username_error %}
@@ -48,7 +47,7 @@
                     </div>
                 {% endif %}
 
-                <input type="email" class="form-control {% if email_error %}is-invalid{% endif %}" 
+                <input type="email" class="form-control {% if email_error %}is-invalid{% endif %}" id="email"
                     name='email' placeholder="Enter your email" value="{{email}}" required>
 
                 {% if email_error %}
@@ -57,7 +56,7 @@
                     </div>
                 {% endif %}
 
-                <input type="password" class="form-control {% if empty_password %}is-invalid{% endif %}" 
+                <input type="password" class="form-control {% if empty_password %}is-invalid{% endif %}" id="password"
                     name="password" placeholder="Enter your password" required>
 
                 {% if empty_password %}
@@ -66,7 +65,7 @@
                     </div>
                 {% endif %}
 
-                <input type="password" class="form-control {% if different_passwords %}is-invalid{% endif %}" 
+                <input type="password" class="form-control {% if different_passwords %}is-invalid{% endif %}" id="repass"
                     name="repass" placeholder="Re-enter your password" required>
 
                 {% if different_passwords %}
