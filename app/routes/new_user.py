@@ -8,30 +8,27 @@ def new_user_register():
     if request.method == 'POST':
         from app import db
         from app.models import User
+
         username = request.form.get("username", "")
         email = request.form.get("email", "")
         password = request.form.get("password", "")
         re_pass = request.form.get("repass", "")
         email_pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+
+        errors = {}
         
         if User.query.filter_by(username=username).first():
-            flash("Username already exists", category="username_error")
-            return render_template("register.html", uname=username, email=email)
+            errors["username_error"] = "Username already exists"
+        
+        if not re.match(email_pattern, email):
+            errors["email_error"] = "Invalid Email"
+        
+        if password != re_pass:
+            errors["different_passwords"] = "Both passwords must be the same"
 
-        elif username == "":
-            flash("Username must not be empty")
-            return render_template('register.html', email=email)
-        
-        elif not re.match(email_pattern, email):
-            flash("Invalid Email", category="email_error")
-            return render_template("register.html", uname=username, email=email)
-        
-        elif password == "":
-            flash("Password must not be empty", category="empty_password")
-            return render_template("register.html", uname=username, email=email)
-        
-        elif password != re_pass:
-            flash("Both passwords must be the same", category="different_passwords")
+        if errors:
+            for cat, msg in errors.items():
+                flash(msg, category=cat)
             return render_template("register.html", uname=username, email=email)
         
 

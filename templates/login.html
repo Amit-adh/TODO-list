@@ -20,22 +20,21 @@
     <form action="{{ url_for('auth.login')}}" method="POST">
         <div class="form-fields">
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% set login_error = None %}
                 {% for category, msg in messages %}
-                    {% if category == 'login_error' %}
+                    {% if category == "login_error" %}
                         {% set login_error = msg %}
                     {% endif %}
                 {% endfor %}
             {% endwith %}
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control {% if login_error %}is-invalid{% endif %}" name="username" id="username" placeholder="Enter your username">
+            <input type="text" class="form-control {% if login_error %}is-invalid{% endif %}" 
+                name="username" id="username" placeholder="Enter your username" required>
             {% if login_error %}
                 <div class="invalid-feedback">
                     {{ login_error }}
                 </div>
             {% endif %}
 
-            <input type="password" class="form-control" name="password" placeholder="Enter your password">
+            <input type="password" class="form-control" name="password" placeholder="Enter your password" required>
         </div>
         <div class="row" style="margin-top:50px">
             <div class="col-8 offset-2">
