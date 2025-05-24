@@ -16,7 +16,7 @@ def login():
             session['user_id'] = user.id
             return redirect(url_for("dashboard"))
         else:
-            flash("Invalid username or password", category="login_error")
+            flash("Invalid username or password")
             return redirect(url_for("auth.login"))
     else:
         return render_template("login.html")

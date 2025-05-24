@@ -21,34 +21,13 @@
         <div class="form-fields">
 
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% set errors = {} %}
-                
-                {% for msg, category in messages %}
-                    {% set _ = errors.update({category: msg}) %}
-                {% endfor %}
 
-                {% for category, msg in errors.items() %}
-                    <div class="rand">
-                        {{msg}}
-                    </div>
-                {% endfor %}
-
-                <input type="text" class="form-control {% if errors.username_error %}is-invalid{% endif %}" 
-                    name='username' placeholder="Enter your username" value="{{uname}}" required>
-
-                {% if errors.username_error %}
-                    <div class="invalid-feedback">
-                        {{ errors.username_error }}
-                    </div>
-                {% endif %}
-
-
-                <!-- {% set username_error = None %}
+                {% set username_error = None %}
                 {% set email_error = None %}
                 {% set empty_password = None %}
-                {% set different_passwords = None %} -->
+                {% set different_passwords = None %}
                 
-                <!-- {% for msg, category in messages %}
+                {% for msg, category in messages %}
                     {% if category == 'username_error' %}
                         {% set username_error = msg %}
                     {% elif category == 'email_error' %}
@@ -58,9 +37,16 @@
                     {% elif category == 'different_passwords' %}
                         {% set different_passwords = msg %}
                     {% endif %}
-                {% endfor %} -->
+                {% endfor %}
 
-                
+                <input type="text" class="form-control {% if username_error %}is-invalid{% endif %}" 
+                    name='username' placeholder="Enter your username" value="{{uname}}" required>
+
+                {% if username_error %}
+                    <div class="invalid-feedback">
+                        {{ username_error }}
+                    </div>
+                {% endif %}
 
                 <input type="email" class="form-control {% if email_error %}is-invalid{% endif %}" 
                     name='email' placeholder="Enter your email" value="{{email}}" required>
