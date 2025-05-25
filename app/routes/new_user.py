@@ -19,16 +19,19 @@ def new_user_register():
         
         if User.query.filter_by(username=username).first():
             flash("username_error")
-            errors["username_error"] = "Username already exists"
+            errors["username_error"] = True
         
+        if User.query.filter_by(email=email).first():   
+            flash("email_unique_error")
+            errors["email_unique_error"] = True
+
         if not re.match(email_pattern, email):
             flash("email_error")
-            errors["email_error"] = "Invalid Email"
+            errors["email_error"] = True
         
         if password != re_pass:
             flash("different_passwords")
-            errors["different_passwords"] = "Both passwords must be the same"
-
+            errors["different_passwords"] = True
         if errors:
             # for cat, msg in errors.items():
             #     flash(msg, category=cat)

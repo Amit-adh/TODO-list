@@ -47,6 +47,13 @@
                     <div class="invalid-feedback">
                         Invalid Email
                     </div>
+                {% elif 'email_unique_error' in messages %}
+                    <input type="email" class="form-control is-invalid" id="email"
+                        name='email' placeholder="Enter your email" value="{{email}}" required>
+
+                    <div class="invalid-feedback">
+                        Email is already in use
+                    </div>
                 {% else %}
                     <input type="email" class="form-control" id="email"
                         name='email' placeholder="Enter your email" value="{{email}}" required>
