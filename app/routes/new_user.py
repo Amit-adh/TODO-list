@@ -18,17 +18,20 @@ def new_user_register():
         errors = {}
         
         if User.query.filter_by(username=username).first():
+            flash("username_error")
             errors["username_error"] = "Username already exists"
         
         if not re.match(email_pattern, email):
+            flash("email_error")
             errors["email_error"] = "Invalid Email"
         
         if password != re_pass:
+            flash("different_passwords")
             errors["different_passwords"] = "Both passwords must be the same"
 
         if errors:
-            for cat, msg in errors.items():
-                flash(msg, category=cat)
+            # for cat, msg in errors.items():
+            #     flash(msg, category=cat)
             return render_template("register.html", uname=username, email=email)
         
 
