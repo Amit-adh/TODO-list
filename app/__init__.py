@@ -1,7 +1,7 @@
 from flask import Flask, session, blueprints, request, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy # type: ignore
 from datetime import timedelta
-import config
+from config import Config
 from app.routes.auth import auth
 from app.routes.new_user import new_user
 from app.routes.tasks import tasks
@@ -14,7 +14,7 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__, static_folder=os.path.join("..", "static"), template_folder=os.path.join("..", "templates"))
-    app.config.from_object(config)
+    app.config.from_object(Config)
     db.init_app(app)
 
     from app.models import Todo, User
