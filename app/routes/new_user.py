@@ -33,8 +33,6 @@ def new_user_register():
             flash("different_passwords")
             errors["different_passwords"] = True
         if errors:
-            # for cat, msg in errors.items():
-            #     flash(msg, category=cat)
             return render_template("register.html", uname=username, email=email)
         
 
