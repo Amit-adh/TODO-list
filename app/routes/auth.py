@@ -17,7 +17,7 @@ def login():
             return redirect(url_for("dashboard"))
         else:
             flash("Invalid username or password")
-            return redirect(url_for("auth.login"))
+            return render_template("login.html", uname=username)
     else:
         return render_template("login.html")
 

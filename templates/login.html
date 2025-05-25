@@ -21,7 +21,7 @@
         <div class="form-fields">
             {% with messages = get_flashed_messages() %}
                 <input type="text" class="form-control {% if messages %}is-invalid{% endif %}" 
-                    name="username" id="username" placeholder="Enter your username" required>
+                    name="username" id="username" value="{{uname}}" placeholder="Enter your username" required>
 
                 <input type="password" class="form-control {% if messages %}is-invalid{% endif %}" 
                     name="password" placeholder="Enter your password" required>
